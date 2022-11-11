@@ -1,4 +1,7 @@
 LOG Executing Git Beaver Main
+SERVER ENDPOINT info info
+SERVER ENDPOINT shutdown shutdown
 SECURITY MASTERKEY PRESENT => keyfound
 IF ${keyfound} THEN endpoints-with-security ELSE endpoints-no-security
-LOG Terminating Git Beaver Main
+SERVER LISTEN PORT 8080
+LOG Started GitBeaver server, terminating main script

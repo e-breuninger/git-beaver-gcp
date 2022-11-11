@@ -1,5 +1,1 @@
-LOG Starting Git Beaver Server (no master key)
-SERVER LISTEN PORT 8080
 SERVER ENDPOINT init createmasterkey
-SERVER ENDPOINT shutdown shutdown
-SERVER ENDPOINT test triggered
