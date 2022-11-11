@@ -1,0 +1,4 @@
+LOG Starting Git Beaver Server
+SERVER LISTEN PORT 8080
+SERVER ENDPOINT test triggered
+SERVER ENDPOINT shutdown shutdown

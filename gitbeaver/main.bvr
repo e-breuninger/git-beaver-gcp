@@ -1,0 +1,4 @@
+LOG Executing Git Beaver Main
+SECURITY MASTERKEY PRESENT => keyfound
+IF ${keyfound} THEN endpoints-with-security ELSE endpoints-no-security
+LOG Terminating Git Beaver Main
