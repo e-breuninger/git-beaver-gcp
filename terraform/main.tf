@@ -76,8 +76,8 @@ resource "google_cloud_run_service" "service" {
     spec {
       service_account_name = google_service_account.gitbeaver-sa.account_id
       containers {
-        image = "eu.gcr.io/breuni-infra-gitbeaver/gitbeaver-release:2022-11-09-16-21-41"
-        args = ["runGit=https://github.com/kneissler", "runRepo=test-main", "runTag=main", "runScript=main"]
+        image = "eu.gcr.io/breuni-infra-gitbeaver/gitbeaver:2022-11-11-07-38-17"
+        args = []
         env {
           name = "gitbeaver-masterkey"
           value_from {
@@ -123,4 +123,21 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
   service     = google_cloud_run_service.service.name
 
   policy_data = data.google_iam_policy.noauth.policy_data
+}
+
+resource "google_storage_bucket" "terraform_state" {
+  name          = "breuni-gitbeaver-tfstate"
+  project = google_project.project.project_id
+  force_destroy = false
+  location      = "europe-west3"
+  storage_class = "STANDARD"
+  versioning {
+    enabled = true
+  }
+}
+terraform {
+  backend "gcs" {
+    bucket  = "breuni-gitbeaver-tfstate"
+    prefix  = "terraform/state"
+  }
 }

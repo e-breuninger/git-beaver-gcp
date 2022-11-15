@@ -28,3 +28,9 @@ jobs:
       run: gcloud auth configure-docker -q
     - name: Push docker image
       run: docker push $IMAGE
+    - uses: hashicorp/setup-terraform@v2
+    - run: cd terraform
+    - name: Terraform init
+      run: terraform init
+    - name: Terraform apply
+      run: terraform apply
