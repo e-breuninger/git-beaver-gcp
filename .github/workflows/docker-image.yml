@@ -9,8 +9,6 @@ on:
 env:
   PROJECT_ID: breuninger-core-gitbeaver
   LOCATION: europe-west3
-  TF_STATE_BUCKET: breuninger-terraform-remote-state
-  TF_STATE_PATH: core/gitbeaver
   TF_VERSION: 1.1.8
   NETORK: projects/breuninger-core/locations/europe-west3/connectors/breuninger-core-network
   IMAGE_REGION: eu.gcr.io

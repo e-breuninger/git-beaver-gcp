@@ -7,20 +7,10 @@ variable "location" {
   type = string
 }
 
-variable "tf_state_bucket" {
-  type = string
-}
-
-variable "tf_state_path" {
-  type = string
-}
-
-// projects/breuninger-core/locations/europe-west3/connectors/breuninger-core-network
 variable "network" {
   type = string
 }
 
-// eu.gcr.io/breuninger-core-gitbeaver/gitbeaver:$DATE
 variable "docker_image" {
   type = string
 }
@@ -104,13 +94,5 @@ resource "google_cloud_run_service" "service" {
   traffic {
     percent         = 100
     latest_revision = true
-  }
-}
-
-# bucket to store the remote terraform state
-terraform {
-  backend "gcs" {
-    bucket  = var.tf_state_bucket
-    prefix  = var.tf_state_path
   }
 }
