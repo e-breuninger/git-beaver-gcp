@@ -25,7 +25,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Determine docker image including current date
       run: echo "IMAGE=$IMAGE_REGION/$PROJECT_ID/gitbeaver:$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
-    - name: Build the Docker image
+    - name: Build the Docker image ${{ env.IMAGE }}
       run: docker build . --file Dockerfile --tag $IMAGE
     - name: Initialize gcloud
       uses: google-github-actions/setup-gcloud@v0
@@ -51,4 +51,4 @@ jobs:
         tf_actions_subcommand: 'apply'
         tf_actions_working_dir: 'terraform'
         tf_actions_comment: true
-        args: '-var="project_id=${{ PROJECT_ID }} lccation=${{ LOCATION }} tf_state_bucket=${{ TF_STATE_BUCKET }} tf_state_path=${{ TF_STATE_PATH }} network=${{ NETORK }} docker_image=$IMAGE"'
+        args: '-var="project_id=$env.PROJECT_ID }} lccation=${{ env.LOCATION }} tf_state_bucket=${{ env.TF_STATE_BUCKET }} tf_state_path=${{ env.TF_STATE_PATH }} network=${{ env.NETORK }} docker_image=${{ env.IMAGE }}"'
