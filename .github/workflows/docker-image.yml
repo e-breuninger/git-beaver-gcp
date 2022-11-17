@@ -47,4 +47,4 @@ jobs:
         tf_actions_subcommand: 'apply'
         tf_actions_working_dir: 'terraform'
         tf_actions_comment: true
-        args: '-var="project_id=$env.PROJECT_ID }} lccation=${{ env.LOCATION }} tf_state_bucket=${{ env.TF_STATE_BUCKET }} tf_state_path=${{ env.TF_STATE_PATH }} network=${{ env.NETORK }} docker_image=${{ env.IMAGE }}"'
+        args: '-var="project_id=$env.PROJECT_ID }}" -var="lccation=${{ env.LOCATION }}" -var="tf_state_bucket=${{ env.TF_STATE_BUCKET }}" -var="tf_state_path=${{ env.TF_STATE_PATH }}" -var="network=${{ env.NETORK }}" -var="docker_image=${{ env.IMAGE }}"'
