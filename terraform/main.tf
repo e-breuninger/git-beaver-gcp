@@ -111,6 +111,7 @@ resource "google_storage_bucket" "terraform_state" {
 terraform {
   backend "gcs" {
     bucket  = "gitbeaver-terraform-state"
+    project = var.project_id
     prefix  = "terraform/state"
   }
 }
