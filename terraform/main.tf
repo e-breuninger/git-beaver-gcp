@@ -96,3 +96,21 @@ resource "google_cloud_run_service" "service" {
     latest_revision = true
   }
 }
+
+resource "google_storage_bucket" "terraform_state" {
+  name          = "gitbeaver-terraform_state"
+  project       = var.project_id
+  force_destroy = false
+  location      = var.location
+  storage_class = "STANDARD"
+  versioning {
+    enabled = true
+  }
+}
+
+terraform {
+  backend "gcs" {
+    bucket  = google_storage_bucket.terraform_state.id
+    prefix  = "terraform/state"
+  }
+}
