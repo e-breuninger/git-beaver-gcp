@@ -1,7 +1,33 @@
 
+variable "project_id" {
+  type = string
+}
+
+variable "location" {
+  type = string
+}
+
+variable "tf_state_bucket" {
+  type = string
+}
+
+variable "tf_state_path" {
+  type = string
+}
+
+// projects/breuninger-core/locations/europe-west3/connectors/breuninger-core-network
+variable "network" {
+  type = string
+}
+
+// eu.gcr.io/breuninger-core-gitbeaver/gitbeaver:$DATE
+variable "docker_image" {
+  type = string
+}
+
 # Secret for storing master key
 resource "google_secret_manager_secret" "secret" {
-  project = "${project_id}"
+  project = var.project_id
   secret_id = "gitbeaver-masterkey"
 
   replication {
@@ -21,35 +47,35 @@ resource "google_secret_manager_secret_version" "version" {
 
 # service aaccount under which the gitbeaver runs (not used for provisioning)
 resource "google_service_account" "gitbeaver-sa" {
-  project = "${project_id}"
+  project = var.project_id
   account_id   = "gitbeaver-sa"
   display_name = "GitBeaver Service Account"
 }
 
 # allow accessing the secret
 resource "google_project_iam_member" "service-account-binding-gitbeaver-accessor" {
-  project = "${project_id}"
+  project = var.project_id
   role    = "roles/secretmanager.secretAccessor"
   member  = "serviceAccount:${google_service_account.gitbeaver-sa.email}"
 }
 
 # allow writing a new version of the secret
 resource "google_project_iam_member" "service-account-binding-gitbeaver-adder" {
-  project = "${project_id}"
+  project = var.project_id
   role    = "roles/secretmanager.secretVersionAdder"
   member  = "serviceAccount:${google_service_account.gitbeaver-sa.email}"
 }
 
 # cloud run service for git beaver
 resource "google_cloud_run_service" "service" {
-  project = "${project_id}"
+  project = var.project_id
   name     = "git-beaver"
-  location = "europe-west3"
+  location = var.location
   template {
     spec {
       service_account_name = google_service_account.gitbeaver-sa.account_id
       containers {
-        image = "eu.gcr.io/breuni-infra-gitbeaver/gitbeaver:2022-11-11-07-38-17"
+        image = var.docker_image
         args = []
         env {
           name = "gitbeaver-masterkey"
@@ -66,14 +92,13 @@ resource "google_cloud_run_service" "service" {
       annotations = {
         "autoscaling.knative.dev/minScale" = 0 // can scale down to save costs
         "autoscaling.knative.dev/maxScale" = 1 // must be 1, we do not want concurrent gitbeaver sessions
-        # TODO: grant access to network to gitlab
-        #"run.googleapis.com/vpc-access-connector" = "projects/breuninger-dataprocessing/locations/europe-west3/connectors/breuni-gitlab-cicd"
+        "run.googleapis.com/vpc-access-connector" = var.network
       }
     }
   }
   metadata {
     annotations = {
-      "run.googleapis.com/ingress" = "all" // TODO: limit this to internal traffic?
+      "run.googleapis.com/ingress" = "all" // TODO: limit to internal traffic?
     }
   }
   traffic {
@@ -85,7 +110,7 @@ resource "google_cloud_run_service" "service" {
 # bucket to store the remote terraform state
 terraform {
   backend "gcs" {
-    bucket  = "breuni-gitbeaver-tfstate"
-    prefix  = "core/gitbeaver"
+    bucket  = var.tf_state_bucket
+    prefix  = var.tf_state_path
   }
 }
