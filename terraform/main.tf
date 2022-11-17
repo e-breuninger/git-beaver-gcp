@@ -98,7 +98,7 @@ resource "google_cloud_run_service" "service" {
 }
 
 resource "google_storage_bucket" "terraform_state" {
-  name          = "gitbeaver-terraform_state"
+  name          = "gitbeaver-terraform-state"
   project       = var.project_id
   force_destroy = false
   location      = var.location
@@ -110,7 +110,7 @@ resource "google_storage_bucket" "terraform_state" {
 
 terraform {
   backend "gcs" {
-    bucket  = google_storage_bucket.terraform_state.id
+    bucket  = "gitbeaver-terraform-state"
     prefix  = "terraform/state"
   }
 }
