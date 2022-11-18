@@ -11,6 +11,10 @@ variable "network" {
   type = string
 }
 
+variable "service_account" {
+  type = string
+}
+
 variable "docker_image" {
   type = string
 }
@@ -35,27 +39,6 @@ resource "google_secret_manager_secret_version" "version" {
   secret_data = "not-set"
 }
 
-# service aaccount under which the gitbeaver runs (not used for provisioning)
-resource "google_service_account" "gitbeaver-sa" {
-  project = var.project_id
-  account_id   = "gitbeaver-sa"
-  display_name = "GitBeaver Service Account"
-}
-
-# allow accessing the secret
-resource "google_project_iam_member" "service-account-binding-gitbeaver-accessor" {
-  project = var.project_id
-  role    = "roles/secretmanager.secretAccessor"
-  member  = "serviceAccount:${google_service_account.gitbeaver-sa.email}"
-}
-
-# allow writing a new version of the secret
-resource "google_project_iam_member" "service-account-binding-gitbeaver-adder" {
-  project = var.project_id
-  role    = "roles/secretmanager.secretVersionAdder"
-  member  = "serviceAccount:${google_service_account.gitbeaver-sa.email}"
-}
-
 # cloud run service for git beaver
 resource "google_cloud_run_service" "service" {
   project = var.project_id
@@ -63,7 +46,7 @@ resource "google_cloud_run_service" "service" {
   location = var.location
   template {
     spec {
-      service_account_name = google_service_account.gitbeaver-sa.account_id
+      service_account_name = var.service_account
       containers {
         image = var.docker_image
         args = []
