@@ -1,9 +1,29 @@
+// ID of git-beaver project
+variable "project_id" {
+  type = string
+}
+
+// ID of parent folder for git-beaver project
+variable "folder_id" {
+  type = string
+}
+
+// ID of billing account
+variable "billing_account" {
+  type = string
+}
+
+// location (for tf-state bucket)
+variable "location" {
+  type = string
+}
+
 # project
 resource "google_project" "project" {
-  name       = "breuninger-core-gitbeaver"
-  project_id = "breuninger-core-gitbeaver"
-  folder_id  = 0 // ID of parent folder for created project goes here
-  billing_account = "000000-000000-000000" // ID of billing account goes here
+  name       = var.project_id
+  project_id = var.project_id
+  folder_id  = var.folder_id
+  billing_account = var.billing_account
 }
 
 # enable api
@@ -45,6 +65,20 @@ resource "google_project_iam_member" "service-account-member-cicd-2" {
   member  = "serviceAccount:${google_service_account.gitbeaver-cicd-sa.email}"
 }
 
+# allow CI/CD to create cloud run service
+resource "google_project_iam_member" "service-account-member-cicd-3" {
+  project = google_project.project.project_id
+  role    = "roles/run.admin"
+  member  = "serviceAccount:${google_service_account.gitbeaver-cicd-sa.email}"
+}
+
+# allow CI/CD to start cloud run service under another service acount
+resource "google_project_iam_member" "service-account-member-cicd-4" {
+  project = google_project.project.project_id
+  role    = "roles/iam.serviceAccountUser"
+  member  = "serviceAccount:${google_service_account.gitbeaver-cicd-sa.email}"
+}
+
 # service account to run git beaver
 resource "google_service_account" "gitbeaver-run-sa" {
   project = google_project.project.project_id
@@ -69,9 +103,9 @@ resource "google_project_iam_member" "service-account-binding-gitbeaver-adder" {
 # bucket to store terraform state
 resource "google_storage_bucket" "terraform_state" {
   name          = "gitbeaver-terraform-state"
-  project = google_project.project.project_id
+  project       = google_project.project.project_id
   force_destroy = false
-  location      = "europe-west3"
+  location      = var.location
   storage_class = "STANDARD"
   versioning {
     enabled = true
