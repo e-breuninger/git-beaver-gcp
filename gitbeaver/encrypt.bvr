@@ -1,0 +1,3 @@
+LOG Encrypting secret
+SECURITY ENCRYPT ${secret} => encrypted
+LOG Encrypted: ${encrypted}
