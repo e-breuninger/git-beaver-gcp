@@ -19,6 +19,23 @@ variable "docker_image" {
   type = string
 }
 
+variable "runGit" {
+  type = string
+}
+
+variable "runRepo" {
+  type = string
+}
+
+variable "runTag" {
+  type = string
+}
+
+variable "runScript" {
+  type = string
+}
+
+
 # Secret for storing master key
 resource "google_secret_manager_secret" "secret" {
   project = var.project_id
