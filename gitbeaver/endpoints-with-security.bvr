@@ -1,1 +1,3 @@
 SERVER ENDPOINT encrypt encrypt
+LOG Executing run script
+EXECUTE run
