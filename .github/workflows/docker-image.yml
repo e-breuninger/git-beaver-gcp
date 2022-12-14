@@ -59,6 +59,6 @@ jobs:
           -var="service_account=${{ env.SERVICE_ACCOUNT }}" 
           -var="docker_image=${{ env.IMAGE }}"
           -var="run_git=${{ env.RUN_GIT }}"
-          -var="run_epo=${{ env.RUN_REPO }}"
+          -var="run_repo=${{ env.RUN_REPO }}"
           -var="run_tag=${{ env.RUN_TAG }}"
           -var="run_script=${{ env.RUN_SCRIPT }}"
