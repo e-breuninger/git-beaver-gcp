@@ -13,7 +13,7 @@ env:
   NETORK: projects/breuninger-core/locations/europe-west3/connectors/breuninger-core-network
   IMAGE_REGION: eu.gcr.io
   SERVICE_ACCOUNT: gitbeaver-run-sa
-  RUN_GIT: https://github.com/kneissler/test-main
+  RUN_GIT: https://github.com/kneissler
   RUN_REPO: test-main
   RUN_TAG: main
   RUN_SCRIPT: main
