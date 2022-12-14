@@ -66,7 +66,12 @@ resource "google_cloud_run_service" "service" {
       service_account_name = var.service_account
       containers {
         image = var.docker_image
-        args = []
+        args = [
+          "runGit="+var.runGit,
+          "runRepo="+var.runRepo,
+          "runTag="+var.runTag,
+          "runScript="+var.runScript
+        ]
         env {
           name = "gitbeaver-masterkey"
           value_from {
