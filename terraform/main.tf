@@ -19,19 +19,19 @@ variable "docker_image" {
   type = string
 }
 
-variable "runGit" {
+variable "run_git" {
   type = string
 }
 
-variable "runRepo" {
+variable "run_repo" {
   type = string
 }
 
-variable "runTag" {
+variable "run_tag" {
   type = string
 }
 
-variable "runScript" {
+variable "run_script" {
   type = string
 }
 
@@ -67,10 +67,10 @@ resource "google_cloud_run_service" "service" {
       containers {
         image = var.docker_image
         args = [
-          "runGit="+var.runGit,
-          "runRepo="+var.runRepo,
-          "runTag="+var.runTag,
-          "runScript="+var.runScript
+          "runGit="+var.run_git,
+          "runRepo="+var.run_repo,
+          "runTag="+var.run_tag,
+          "runScript="+var.run_script
         ]
         env {
           name = "gitbeaver-masterkey"
