@@ -14,7 +14,7 @@ env:
   IMAGE_REGION: eu.gcr.io
   SERVICE_ACCOUNT: gitbeaver-run-sa
   RUN_GIT: https://github.com/kneissler
-  RUN_REPO: test-main
+  RUN_REPO: provisioning-main
   RUN_TAG: main
   RUN_SCRIPT: main
 

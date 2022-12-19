@@ -14,4 +14,8 @@ by Breuninger (in [this repository]()). NOTE: This is currently not true, as lon
 is still ongoing. We do not use a release version tag, yet, rather take the lates image 
 from branch "main".
 
+## Links
 
+Useful urls:
+
+ * Logs: https://console.cloud.google.com/run/detail/europe-west3/git-beaver/logs?project=breuninger-core-gitbeaver
