@@ -73,7 +73,7 @@ resource "google_cloud_run_service" "service" {
           join("=",["runScript", var.run_script])
         ]
         env {
-          name = "gitbeaver-masterkey"
+          name = "GITBEAVER_MASTERKEY"
           value_from {
             secret_key_ref {
               key  = "latest"

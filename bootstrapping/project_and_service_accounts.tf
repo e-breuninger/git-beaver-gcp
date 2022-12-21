@@ -100,6 +100,14 @@ resource "google_project_iam_member" "service-account-binding-gitbeaver-adder" {
   member  = "serviceAccount:${google_service_account.gitbeaver-run-sa.email}"
 }
 
+# allow gitbeaver to access tf state bucket
+resource "google_project_iam_member" "service-account-member-gitbeaver-storage" {
+  project = google_project.project.project_id
+  role    = "roles/storage.admin"
+  member  = "serviceAccount:${google_service_account.gitbeaver-run-sa.email}"
+}
+
+
 # bucket to store terraform state
 resource "google_storage_bucket" "terraform_state" {
   name          = "gitbeaver-terraform-state"
