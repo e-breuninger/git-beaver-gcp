@@ -72,6 +72,12 @@ resource "google_cloud_run_service" "service" {
           join("=",["runTag", var.run_tag]),
           join("=",["runScript", var.run_script])
         ]
+        resources {
+          limits = {
+            cpu = "2000m"
+            memory = "8000Mi"
+          }
+        }
         env {
           name = "GITBEAVER_MASTERKEY"
           value_from {
