@@ -93,6 +93,7 @@ resource "google_cloud_run_service" "service" {
       annotations = {
         "autoscaling.knative.dev/minScale" = 0 // can scale down to save costs
         "autoscaling.knative.dev/maxScale" = 1 // must be 1, we do not want concurrent gitbeaver sessions
+        "run.googleapis.com/cpu-throttling" = false // allocate cpu also when not processing request
         // TODO "run.googleapis.com/vpc-access-connector" = var.network
       }
     }
