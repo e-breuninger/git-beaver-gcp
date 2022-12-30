@@ -14,7 +14,7 @@ agent "git-beaver" #orchid
 agent "git-beaver-gcp" #orchid
 }
 frame GCP/breuninger-core-gitbeaver {
-(eu.gcr.io/gitbeaver) #deepskyblue
+(eu.gcr.io/gitbeaver) #dodgerblue
 hexagon CloudRun #greenyellow
 }
 
