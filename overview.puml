@@ -1,0 +1,37 @@
+@startuml
+frame github.com/g-bvr {
+agent core #orange
+agent plugin1 #orange
+agent plugin2 #orange
+agent plugin3 #orange
+}
+frame hub.docker.com {
+(gitbeaver/core) #deepskyblue
+(gitbeaver/release) #deepskyblue
+}
+frame github.com/e-breuninger {
+agent "git-beaver" #orchid
+agent "git-beaver-gcp" #orchid
+}
+frame GCP/breuninger-core-gitbeaver {
+(eu.gcr.io/gitbeaver) #deepskyblue
+hexagon CloudRun #greenyellow
+}
+
+(core) --|> (plugin1)
+(core) --|> (plugin2)
+(core) --|> (plugin3)
+(core) -[#blue]> (gitbeaver/core) : builds
+(gitbeaver/core) --|> (gitbeaver/release)
+(plugin1) --> (gitbeaver/release)
+(plugin2) --> (gitbeaver/release)
+(plugin3) --> (gitbeaver/release)
+(git-beaver) -[#blue]l--> (gitbeaver/release) : builds
+(git-beaver) -[hidden]-> (git-beaver-gcp)
+(gitbeaver/core)<-[#red]l-(git-beaver) : runs
+(git-beaver-gcp)-[#green]->(CloudRun) : terraforms
+(gitbeaver/release)--|>(eu.gcr.io/gitbeaver)
+(git-beaver-gcp) -[#blue]-> (eu.gcr.io/gitbeaver) : builds
+(eu.gcr.io/gitbeaver) <-[#red] (CloudRun) : runs
+
+@enduml
