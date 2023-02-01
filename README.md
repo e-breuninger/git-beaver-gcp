@@ -14,6 +14,14 @@ by Breuninger (in [this repository]()). NOTE: This is currently not true, as lon
 is still ongoing. We do not use a release version tag, yet, rather take the lates image 
 from branch "main".
 
+## Service accounts
+
+| Service Account name | Function                 | Project                   | Roles                                                                         |
+|:---------------------|:-------------------------|:--------------------------|:------------------------------------------------------------------------------|
+| gitbeaver-cicd-sa    | Deploy cloud run service | breuninger-core-gitbeaver | secretmanager.admin, run.admin, iam.serviceAccountUser, storage.admin         |
+| gitbeaver-run-sa     | Execute cloud service    | breuninger-core-gitbeaver | secretmanager.secretAccessor, secretmanager.secretVersionAdder, storage.admin |
+
+
 ## Links
 
 Useful urls:

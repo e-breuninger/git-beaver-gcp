@@ -1,2 +1,0 @@
-LOG This is the triggered script
-GIT CLONE https://gitlab.breuni.de/verstehen/data-engineering/provisioning gcp-permissions
