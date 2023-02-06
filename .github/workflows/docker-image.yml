@@ -13,8 +13,8 @@ env:
   NETORK: projects/breuninger-core/locations/europe-west3/connectors/breuninger-core-network
   IMAGE_REGION: eu.gcr.io
   SERVICE_ACCOUNT: gitbeaver-run-sa
-  RUN_GIT:  https://github.com/jan-kneissler-breuninger-de/organization-structure-mirrorhttps://github.com/kneissler
-  RUN_REPO: provisioning-main
+  RUN_GIT:  https://github.com/jan-kneissler-breuninger-de
+  RUN_REPO: provisioning-mirror
   RUN_TAG: main
   RUN_SCRIPT: main
 
