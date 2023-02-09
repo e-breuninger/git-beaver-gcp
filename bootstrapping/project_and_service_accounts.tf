@@ -177,7 +177,7 @@ resource "google_service_account" "project-factory-sa" {
 
 # storage admin for creating/reading/writing terraform state
 resource "google_project_iam_member" "service-account-member-project-factory-storage" {
-  project =  google_project.project.project_id # "722026089310" # TODO as parameter
+  project =  google_project.project.project_id
   role    = "roles/storage.admin"
   member  = "serviceAccount:${google_service_account.project-factory-sa.email}"
 }
@@ -215,12 +215,36 @@ resource "google_billing_account_iam_binding" "billing_account_billing_user" {
 
 # bucket to store terraform state of gitbeaver deployment
 resource "google_storage_bucket" "terraform_state" {
-  name          = "gitbeaver-terraform-state"
+  name          = "gitbeaver-terraform-state" // TODO add breuninger prefix
   project       = google_project.project.project_id
   force_destroy = false
   location      = var.location
   storage_class = "STANDARD"
   versioning {
     enabled = true
+  }
+}
+
+# bucket to store gitbeaver logs
+resource "google_storage_bucket" "log_bucket" {
+  name          = "breuninger-gitbeaver-logs"
+  project       = google_project.project.project_id
+  force_destroy = false
+  location      = var.location
+  storage_class = "STANDARD"
+  versioning {
+    enabled = false
+  }
+  lifecycle_rule {
+    condition {
+      age = 3 // delete old logs, TODO increase this
+    }
+    action {
+      type = "Delete"
+    }
+  }
+  website {
+    main_page_suffix = "index.html"
+    not_found_page   = "404.html"
   }
 }
